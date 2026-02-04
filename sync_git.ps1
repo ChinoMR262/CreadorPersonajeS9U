@@ -38,16 +38,9 @@ else {
 Write-Host "Pushing to GitHub..."
 Write-Host "Opening a new window for 'git push'. Please check for a new terminal window to sign in..."
 
-# Push master (or main) in a new window to allow credential entry
-$proc = Start-Process "git" -ArgumentList "push origin master" -PassThru -Wait
+# Push master (or main) in a new window using cmd to ensure visibility and pause
+$cmdCommand = "/c start cmd /k `"git push origin master & pause`""
+Start-Process "cmd" -ArgumentList $cmdCommand -Wait
 
-if ($proc.ExitCode -ne 0) {
-    Write-Warning "First push attempt failed (Auth failed or branch mismatch)."
-    Write-Warning "Trying to push 'master' to 'main' in case of naming convention mismatch..."
-    
-    # Try pushing local master to remote main
-    Start-Process "git" -ArgumentList "push origin master:main" -Wait
-}
-else {
-    Write-Host "Push operation completed."
-}
+# Note: The new window will show the output and pause.
+Write-Host "Process launched. Please check the new window."
