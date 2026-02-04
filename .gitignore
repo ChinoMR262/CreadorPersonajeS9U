@@ -1,0 +1,15 @@
+# System files
+Desktop.ini
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+*.tmp
+
+# VSCode
+.vscode/
+
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,39 @@
+﻿  <!-- GEAR FAB -->
+  <button class="gear-btn" onclick="toggleSettings()"><i class="fas fa-cog"></i></button>
+  <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()" aria-label="Volver arriba"
+    title="Volver arriba"><i class="fas fa-arrow-up"></i></button>
+  <div class="settings-panel" id="settingsPanel">
+    <h3><i class="fas fa-sliders-h"></i> &nbsp;CONFIGURACIÓN</h3>
+    <div class="settings-row"><label>Tamaño de texto</label>
+      <div class="size-btns">
+        <button class="size-btn" onclick="setFontSize(12,'S')" id="sizeS">S</button>
+        <button class="size-btn active" onclick="setFontSize(14,'M')" id="sizeM">M</button>
+        <button class="size-btn" onclick="setFontSize(16,'L')" id="sizeL">L</button>
+        <button class="size-btn" onclick="setFontSize(18,'XL')" id="sizeXL">XL</button>
+      </div>
+    </div>
+    <div class="settings-row"><label>Familia de fuente</label>
+      <select class="font-select" id="fontFamilySelect" onchange="applyFont()">
+        <option value="Rajdhani">Rajdhani</option>
+        <option value="Exo 2">Exo 2</option>
+        <option value="Inter">Inter</option>
+        <option value="Share Tech Mono">Share Tech Mono</option>
+        <option value="Orbitron">Orbitron</option>
+      </select>
+    </div>
+    <div class="settings-row"><label>Sonidos</label>
+      <div class="mute-toggle on" id="muteToggle" onclick="toggleMute()"></div>
+    </div>
+    <div class="settings-row"><label>IA Gemini</label>
+      <div class="mute-toggle on" id="geminiToggle" onclick="toggleGemini()"></div>
+    </div>
+    <div class="settings-row"><label>Animaciones</label>
+      <div class="mute-toggle on" id="animsToggle" onclick="toggleAnims()"></div>
+    </div>
+    <div class="settings-row"><label>Modo Claro</label>
+      <div class="mute-toggle" id="themeToggle" onclick="toggleTheme()"></div>
+    </div>
+    <div class="settings-row"><label>Guardado Automático</label>
+      <div class="mute-toggle" id="autosaveToggle" onclick="toggleAutosave()"></div>
+    </div>
+  </div>

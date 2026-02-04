@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S9U — Helios Engine Data v8</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Partials Injection Containers -->
+    <div id="nav-container"></div>
+    <div class="content" style="max-width:1280px;margin:0 auto;padding:24px 16px">
+        <div id="header-container"></div>
+        <div id="main-container"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Helios Data: Ensure this file is present in js directory. Falling back to root if needed. -->
+    <script src="js/helios_data.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Logic to load partials and then init app
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadPartial = (url, id) => fetch(url).then(r => r.text()).then(h => document.getElementById(id).innerHTML = h);
+
+            // Load Nav and Header
+            Promise.all([
+                loadPartial('partials/nav.html', 'nav-container'),
+                loadPartial('partials/header.html', 'header-container')
+            ]).then(() => {
+                // Load Main, then Footer inside Main
+                return loadPartial('partials/main.html', 'main-container');
+            }).then(() => {
+                return loadPartial('partials/footer.html', 'footer-container');
+            }).then(() => {
+                // Init App AFTER partials are ready
+                if (window.initHelios) {
+                    window.initHelios();
+                } else {
+                    console.error("initHelios function not found in main.js");
+                }
+            }).catch(e => console.error("Error loading partials:", e));
+        });
+    </script>
+</body>
+
+</html>

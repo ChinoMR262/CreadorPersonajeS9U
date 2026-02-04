@@ -1,0 +1,730 @@
+﻿    <!-- ============================================================
+     TERMINAL (UI)
+     - Bloque visual de arranque/estado con estética de terminal.
+     - No afecta la lógica de Helios: es feedback visual del sistema.
+     - Útil para indicar que el motor está activo y listo.
+     ============================================================ -->
+    <!-- TERMINAL -->
+    <div class="gc mb-8" style="padding:0;overflow:hidden">
+      <div
+        style="background:rgba(59,130,246,.08);padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(59,130,246,.15)">
+        <div style="width:10px;height:10px;border-radius:50%;background:#ef4444"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:#f59e0b"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:#10b981"></div>
+        <span id="terminalHeader"
+          style="font-family:'Share Tech Mono';font-size:10px;color:rgba(255,255,255,.3);margin-left:8px;min-height:1.2em"></span>
+      </div>
+      <div class="terminal" id="terminal"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr;gap:24px" id="mainGrid">
+      <div id="formCol" style="display:flex;flex-direction:column;gap:24px">
+
+        <!-- ============================================================
+     IDENTIDAD GENERAL
+     - Campos centrales del personaje (nombre, rol, universo, raza, etc.)
+     - Incluye presets editables y validación para habilitar Helios.
+     - Cambiar el rol impacta: modo villano, catálogos, test y chat.
+     ============================================================ -->
+        <!-- IDENTIDAD -->
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-id-card-alt"></i> IDENTIDAD GENERAL</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+            <input type="text" id="nombre" placeholder="Nombre Completo" class="inp" oninput="checkValidation()">
+            <input type="text" id="alias" list="aliasSugerencias" placeholder="Alias / Títulos" class="inp">
+            <select id="genero" class="inp">
+              <option value="">— Género —</option>
+              <option>Hombre</option>
+              <option>Mujer</option>
+            </select>
+            <select id="rolNarrativo" class="inp">
+              <option value="">— Rol narrativo —</option>
+              <option>Héroe</option>
+              <option>AntiHéroe</option>
+              <option>Villano</option>
+              <option>Neutral</option>
+            </select>
+            <input type="text" id="apodos" list="apodosSugerencias" placeholder="Apodos" class="inp">
+            <input type="text" id="tituloEspiritual" list="titulosEspirituales"
+              placeholder="Título espiritual (opcional)" class="inp">
+            <datalist id="aliasSugerencias">
+              <option value="La Heredera del Abismo"></option>
+              <option value="El/La Vigía del Velo"></option>
+              <option value="Sello de Posidonia"></option>
+              <option value="Ecos de Siul"></option>
+              <option value="Arquitecto/a de Corrientes"></option>
+              <option value="La Voz del Mar"></option>
+            </datalist>
+            <datalist id="apodosSugerencias">
+              <option value="La Nacarada"></option>
+              <option value="Ojos de Galaxia"></option>
+              <option value="Corriente Viva"></option>
+              <option value="Sombra Coralina"></option>
+              <option value="Luz Abisal"></option>
+            </datalist>
+            <datalist id="titulosEspirituales">
+              <option value="Hija de la Corriente Divina"></option>
+              <option value="Portador/a del Equilibrio"></option>
+              <option value="Eco de la Luz Abisal"></option>
+              <option value="Sello Viviente de Helios"></option>
+              <option value="Herald@ del Vínculo Totémico"></option>
+            </datalist>
+            <input type="text" id="eslogan" list="esloganSugerencias" placeholder="Eslogan del personaje" class="inp"
+              style="grid-column:1/-1">
+            <datalist id="esloganSugerencias">
+              <option value="Donde el agua canta, la verdad despierta."></option>
+              <option value="La luz no salva: revela."></option>
+              <option value="Mi voluntad es corriente. Mi destino, océano."></option>
+              <option value="El abismo no devora: transforma."></option>
+              <option value="Yo decido qué permanece."></option>
+            </datalist>
+            <select id="universo" class="inp" onchange="onUniversoChange()">
+              <option value="">— Universo de Origen —</option>
+            </select>
+            <select id="planeta" class="inp" onchange="checkValidation()">
+              <option value="">— Planeta Natal —</option>
+            </select>
+            <select id="raza" class="inp" onchange="checkValidation()">
+              <option value="">— Raza / Linaje —</option>
+            </select>
+            <select id="raza2" class="inp">
+              <option value="">— Raza (segunda / mixta) —</option>
+            </select>
+            <input type="text" id="edadReal" placeholder="Edad real" class="inp">
+            <input type="text" id="edadAparente" placeholder="Edad aparente" class="inp">
+            <input type="text" id="altura" placeholder="Altura (m)" class="inp">
+            <select id="condicion" class="inp">
+              <option value="">— Condición Existencial —</option>
+              <option>Humano</option>
+              <option>Híbrido</option>
+              <option>Divino</option>
+              <option>Ángel</option>
+              <option>Demonio</option>
+              <option>Infernal</option>
+              <option>Maldito</option>
+              <option>Entidad</option>
+              <option>Entidad Abisal</option>
+              <option>Espíritu</option>
+              <option>Espectro</option>
+              <option>Reencarnado</option>
+              <option>Resucitado</option>
+              <option>Vampírico</option>
+              <option>No-muerto</option>
+              <option>Artificial</option>
+              <option>Desconocido</option>
+            </select>
+            <select id="rango" class="inp" style="grid-column:1/-1" onchange="checkValidation()">
+              <option value="">— Rango Jerárquico —</option>
+            </select>
+          </div>
+          <div id="villainPanel"
+            style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(239,68,68,.18)">
+            <div style="font-family:'Orbitron';font-size:10px;letter-spacing:1.5px;color:#fca5a5;margin-bottom:10px"><i
+                class="fas fa-skull"></i> PERFIL DE VILLANO</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+              <select id="villainMotivacion" class="inp villain-select"
+                onchange="handleVillainSelectChange('motivacion')">
+                <option value="">— Motivación —</option>
+              </select>
+              <select id="villainObjetivo" class="inp villain-select" onchange="handleVillainSelectChange('objetivo')">
+                <option value="">— Objetivo final —</option>
+              </select>
+              <select id="villainMetodos" class="inp villain-select" onchange="handleVillainSelectChange('metodos')">
+                <option value="">— Métodos —</option>
+              </select>
+              <select id="villainDebilidad" class="inp villain-select"
+                onchange="handleVillainSelectChange('debilidad')">
+                <option value="">— Debilidad / Falla —</option>
+              </select>
+              <select id="villainCrueldad" class="inp">
+                <option value="">— Nivel de crueldad —</option>
+                <option>Baja</option>
+                <option>Media</option>
+                <option>Alta</option>
+                <option>Implacable</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="gc" style="padding:24px">
+          <!--
+    PREGUNTAS CLAVE (PERSONALIDAD)
+    - Reemplaza la antigua sección "Forma de saludar".
+    - Son preguntas morales/decisionales; alimentan Helios.
+    - La conclusión se genera localmente en tiempo real (ver generarConclusionMoral()).
+  -->
+          <div class="sec-title" id="moralTitle"><i class="fas fa-comments-alt"></i> PREGUNTAS CLAVE PARA DEFINIR SU
+            PERSONALIDAD</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:14px" id="moralDesc">Responde y Helios generará una
+            conclusión breve del perfil moral (editable por tus respuestas).</p>
+          <div id="saludosContainer"></div>
+          <div class="counter-badge" id="moralSummary" style="margin-top:10px;display:inline-block">Conclusión del
+            perfil moral: —</div>
+        </div>
+
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-tshirt"></i> VESTIMENTA DEL PERSONAJE</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:14px">Define la estética del personaje por partes. Abre una
+            sección y selecciona una opción.</p>
+          <div id="vestimentaContainer" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-eye"></i> APARIENCIA</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:14px">Describe la presencia física y estética del personaje
+            con detalle (esto alimenta Helios y la historia).</p>
+          <div id="aparienciaContainer" style="display:flex;flex-direction:column;gap:10px"></div>
+          <textarea id="apExtra" class="inp" style="margin-top:12px;height:90px;resize:none"
+            placeholder="Detalles extra de apariencia (opcional)"></textarea>
+        </div>
+
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-bolt"></i> HABILIDADES Y HABILIDADES ÚNICAS</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:14px">Agrega habilidades del lore S9U. Puedes usar presets
+            o escribir las tuyas. (Se incluyen en exportación y Helios).</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+            <select id="habPreset" class="inp" style="flex:1;min-width:220px">
+              <option value="">— Preset de habilidad —</option>
+            </select>
+            <button onclick="addHabilidadPreset()"
+              style="padding:10px 18px;background:rgba(59,130,246,.16);border:1px solid rgba(59,130,246,.25);border-radius:8px;color:#bfdbfe;font-family:'Orbitron';font-size:10px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:all .25s;white-space:nowrap"><i
+                class="fas fa-plus"></i> AGREGAR PRESET</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px">
+            <input type="text" id="habNombre" list="habSugerencias" placeholder="Nombre de habilidad" class="inp">
+            <datalist id="habSugerencias">
+              <option value="Canto del Abismo Celeste"></option>
+              <option value="Sincronía de Universos"></option>
+              <option value="Purificación de Aguas"></option>
+              <option value="Control del Flujo Vital"></option>
+              <option value="Lectura de Corrientes Temporales"></option>
+              <option value="Mimetismo de Técnica"></option>
+              <option value="Marca de Traslación"></option>
+              <option value="Salto de Instante"></option>
+              <option value="Cadenas del Velo"></option>
+              <option value="Pacto Abismal"></option>
+              <option value="Corona de Terror"></option>
+              <option value="Umbral Inverso"></option>
+            </datalist>
+            <textarea id="habDesc" class="inp" style="height:90px;resize:none"
+              placeholder="Descripción (qué hace, límites, coste, condición, etc.)"></textarea>
+            <button onclick="addHabilidad()"
+              style="padding:12px 18px;background:var(--primary);border:none;border-radius:8px;color:#fff;font-family:'Orbitron';font-size:10px;font-weight:800;cursor:pointer;letter-spacing:1px;transition:all .25s"><i
+                class="fas fa-plus"></i> AGREGAR HABILIDAD</button>
+          </div>
+          <div id="habilidadesList" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+
+        <!-- ============================================================
+     SINTONÍA ANIMAL — VÍNCULO TOTÉMICO
+     - Selección de un ente (o neutro) que influye en Helios
+     - Afecta el análisis local (perfiles) y el tono narrativo.
+     ============================================================ -->
+        <!-- SINTONÍA ANIMAL -->
+        <div class="gc" style="padding:24px;border-color:rgba(167,139,250,.25)">
+          <div class="sec-title" style="color:var(--purple)"><i class="fas fa-paw"></i> SINTONÍA ANIMAL — VÍNCULO
+            TOTÉMICO</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:16px;font-family:'Share Tech Mono'">Elige un animal/ente
+            que acompañe al personaje como vínculo totémico (compañero, guía o sintonía espiritual). Influye en el
+            análisis Helios. También puedes optar por sintonía neutra.</p>
+          <div style="margin-bottom:14px">
+            <div class="animal-none" id="animalNone" onclick="selectAnimal(null)">
+              <span style="font-size:20px">🌀</span>
+              <div>
+                <div style="font-weight:600;font-size:13px">Ningún Animal / Sintonía Neutra</div>
+                <div style="font-size:10px;opacity:.5">El personaje no posee vínculo totémico</div>
+              </div>
+            </div>
+          </div>
+          <div class="animal-grid" id="animalGrid"></div>
+        </div>
+
+        <!-- ============================================================
+     VÍNCULOS Y RELACIONES
+     - Permite crear relaciones tipo (madre, rival, mentor, etc.)
+     - La descripción se genera por IA (si está activa) o localmente.
+     - Se exporta e influye en el análisis extendido.
+     ============================================================ -->
+        <!-- RELACIONES -->
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-users"></i> VÍNCULOS Y RELACIONES</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:14px;font-family:'Share Tech Mono'">Selecciona tipo y
+            escribe nombre. La descripción se genera según los datos del personaje y su animal totémico.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+            <select id="relTipo" class="inp" style="flex:1;min-width:180px">
+              <option value="">— Tipo de relación —</option>
+            </select>
+            <input type="text" id="relNombre" placeholder="Nombre de la persona" class="inp"
+              style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter')agregarRelacion()">
+            <button onclick="agregarRelacion()"
+              style="padding:10px 20px;background:var(--primary);border:none;border-radius:8px;color:#fff;font-family:'Orbitron';font-size:10px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:all .25s;white-space:nowrap"><i
+                class="fas fa-plus"></i> AGREGAR</button>
+          </div>
+          <div id="relaciones" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+
+        <!-- ============================================================
+     HOBBIES Y PASATIEMPOS
+     - Chips multi-selección.
+     - Aporta textura narrativa y señales para Helios.
+     ============================================================ -->
+        <!-- HOBBIES -->
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-gamepad"></i> HOBBIES Y PASATIEMPOS</div>
+          <div id="hobbiesGrid" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+          <div class="counter-badge" id="hobbiesCount" style="margin-top:12px;display:inline-block">Seleccionados: 0
+          </div>
+        </div>
+
+        <!-- ============================================================
+     COSAS QUE DETESTA
+     - Chips con límite (1 a 8).
+     - Cambia por rol (modo Villano usa DETESTA_VILLAIN).
+     ============================================================ -->
+        <!-- DETESTA -->
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-ban"></i> COSAS QUE DETESTA</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:6px;font-family:'Share Tech Mono'">Selecciona entre 1 y 8.
+          </p>
+          <div class="counter-badge" id="destestaCount" style="margin-bottom:14px;display:inline-block">Seleccionados: 0
+            / máx 8</div>
+          <div id="destestaGrid" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+        </div>
+
+        <!-- ============================================================
+     METAS Y DESEOS PROFUNDOS
+     - Lista con checkboxes (exactamente 6).
+     - En modo Villano se reemplaza por deseos villanescos.
+     - Se usa en Helios, narrativa e historia.
+     ============================================================ -->
+        <!-- DESEOS -->
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-star"></i> METAS Y DESEOS PROFUNDOS</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:6px;font-family:'Share Tech Mono'">Selecciona exactamente 6
+            de 10.</p>
+          <div class="counter-badge" id="deseosCount" style="margin-bottom:14px;display:inline-block">Seleccionados: 0 /
+            6</div>
+          <div id="deseosGrid" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
+
+        <!-- ============================================================
+     RASGOS DE PERSONALIDAD
+     - Chips agrupadas por categorías.
+     - Se limitan a 20.
+     - En modo Villano se amplía el catálogo con rasgos oscuros.
+     ============================================================ -->
+        <!-- RASGOS -->
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-check-double"></i> RASGOS DE PERSONALIDAD</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:6px;font-family:'Share Tech Mono'">Hasta 20 rasgos (60
+            disponibles).</p>
+          <div class="counter-badge" id="rasgosCount" style="margin-bottom:14px;display:inline-block">Seleccionados: 0 /
+            máx 20</div>
+          <div id="rasgosGrid" style="display:flex;flex-direction:column;gap:18px"></div>
+        </div>
+
+        <div class="gc" style="padding:24px;border-color:rgba(245,158,11,.25)">
+          <div class="sec-title" style="color:var(--warn)"><i class="fas fa-tags"></i> ETIQUETAS DE HISTORIA</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:6px">Selecciona exactamente 5 palabras que definan la
+            historia de tu personaje.</p>
+          <div class="counter-badge" id="etiquetasCount" style="margin-bottom:14px">Seleccionadas: 0 / 5</div>
+          <div id="etiquetasGrid" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+          <div id="historiaResult"
+            style="margin-top:16px;padding:12px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;display:none">
+            <div style="font-family:'Orbitron';font-size:9px;color:var(--warn);letter-spacing:1px;margin-bottom:6px">
+              DEFINICIÓN DE HISTORIA <span style="opacity:.6;font-size:8px">(editable)</span></div>
+            <textarea id="historiaText" class="inp" rows="3"
+              style="font-size:12px;line-height:1.6;color:#fcd34d;background:rgba(0,0,0,.3);border-color:rgba(245,158,11,.25);resize:vertical"
+              placeholder="La definición se generará al elegir 5 etiquetas..."></textarea>
+          </div>
+        </div>
+
+        <!-- ============================================================
+     TEST DE CONVERGENCIA (20/20)
+     - Preguntas tipo “cuestionario” con progreso.
+     - Cambia por rol (Villano tiene set completo propio).
+     - Es un requisito para habilitar Helios (100% convergencia).
+     ============================================================ -->
+        <!-- TEST 20 -->
+        <div class="gc" style="padding:24px;border:1px solid rgba(59,130,246,.3)">
+          <div
+            style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:6px">
+            <div class="sec-title" style="margin-bottom:0"><i class="fas fa-brain"></i> TEST DE CONVERGENCIA</div>
+            <div class="counter-badge" id="testProgress">0 / 20</div>
+          </div>
+          <div class="prog-wrap" style="margin-bottom:18px">
+            <div class="prog-bar" id="testProgressBar" style="width:0%"></div>
+          </div>
+          <div id="testContainer" style="display:flex;flex-direction:column;gap:16px"></div>
+        </div>
+
+        <!-- EXPRESIÓN DEL PERSONAJE -->
+        <div class="gc" style="padding:24px">
+          <div class="sec-title"><i class="fas fa-theater-masks"></i> EXPRESIÓN DEL PERSONAJE</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:14px">Tu forma de escribir revela cómo piensa y siente tu
+            personaje. El sistema se adapta a tu estilo.</p>
+
+          <!-- ============================================================
+       CHAT / EXPRESIÓN DEL PERSONAJE
+       - Selector de personaje (tarjetas)
+       - Escena actual + log de mensajes
+       - Input de escritura y botón ENVIAR
+       Nota: el sistema detecta estilo de escritura y adapta las respuestas.
+       ============================================================ -->
+          <!-- Selector de personaje con tarjetas visuales -->
+          <div id="dialogueCharacters"
+            style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px">
+          </div>
+
+          <!-- Área de diálogo -->
+          <div id="dialogueContainer" style="display:flex;flex-direction:column;gap:16px">
+            <div id="dialogueScene" class="dialogue-scene">
+              <i class="fas fa-comments"></i> <span>Selecciona un personaje</span>
+            </div>
+            <div id="msgLog" class="msg-log"
+              style="min-height:200px;max-height:400px;overflow-y:auto;padding:16px;background:rgba(0,0,0,.3);border-radius:10px;border:1px solid rgba(59,130,246,.15)">
+            </div>
+            <div style="display:flex;gap:10px">
+              <input type="text" id="dialogueInput" class="inp" placeholder="Escribe como lo haría tu personaje..."
+                disabled>
+              <button class="btn-export dialogue-send" onclick="sendDialogue()" disabled>
+                <i class="fas fa-paper-plane"></i> ENVIAR
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          /* ============================================================
+   CSS (CHAT)
+   - Estilos de tarjetas de personaje y variaciones por modo
+   - Separado del CSS principal para aislar el módulo de diálogo
+   ============================================================ */
+          .character-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 12px;
+            background: rgba(0, 0, 0, .4);
+            border: 2px solid rgba(59, 130, 246, .2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            gap: 8px;
+          }
+
+          .character-card:hover {
+            border-color: var(--primary);
+            background: rgba(0, 0, 0, .6);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px var(--glow);
+          }
+
+          .character-card.active {
+            border-color: var(--primary);
+            background: rgba(var(--primary-rgb, 59, 130, 246), 0.15);
+            box-shadow: 0 0 24px var(--glow);
+          }
+
+          .character-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+          }
+
+          .char-icon {
+            font-size: 24px;
+            line-height: 1;
+          }
+
+          .char-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-align: center;
+            color: #e2e8f0;
+          }
+
+          body.villain-mode .char-name {
+            color: #fecaca
+          }
+
+          body.hero-mode .char-name {
+            color: #bae6fd
+          }
+
+          body.antihero-mode .char-name {
+            color: #ddd6fe
+          }
+
+          body.villain-mode .character-card:hover {
+            border-color: #ef4444;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.35);
+          }
+
+          body.hero-mode .character-card:hover {
+            border-color: #38bdf8;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.35);
+          }
+
+          body.antihero-mode .character-card:hover {
+            border-color: #a78bfa;
+            box-shadow: 0 4px 20px rgba(167, 139, 250, 0.35);
+          }
+
+          .dialogue-scene {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #e2e8f0;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, .3);
+            border-radius: 8px;
+            border: 1px solid rgba(var(--primary-rgb, 59, 130, 246), 0.3);
+          }
+
+          body.villain-mode .dialogue-scene {
+            border-color: rgba(239, 68, 68, .35)
+          }
+
+          body.hero-mode .dialogue-scene {
+            border-color: rgba(56, 189, 248, .35)
+          }
+
+          body.antihero-mode .dialogue-scene {
+            border-color: rgba(167, 139, 250, .35)
+          }
+
+          .msg-log {
+            font-family: var(--body-font);
+            font-size: var(--fs);
+            line-height: 1.6;
+          }
+
+          .player-msg {
+            background: rgba(59, 130, 246, 0.15);
+            border-left: 3px solid var(--primary);
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+            animation: msgSlide 0.3s ease;
+          }
+
+          .npc-msg {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--accent);
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+            animation: msgSlide 0.3s ease;
+          }
+
+          .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 10px 14px;
+            margin: 8px 0;
+          }
+
+          .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+          }
+
+          .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+          }
+
+          .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+          }
+
+          @keyframes typing {
+
+            0%,
+            80%,
+            100% {
+              transform: scale(0.8);
+              opacity: 0.5;
+            }
+
+            40% {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+
+          @keyframes msgSlide {
+            from {
+              opacity: 0;
+              transform: translateX(-20px);
+            }
+
+            to {
+              opacity: 1;
+              transform: translateX(0);
+            }
+          }
+
+          .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+          }
+
+          .preset-btn {
+            background: rgba(var(--primary-rgb, 59, 130, 246), 0.2);
+            border: 1px solid rgba(var(--primary-rgb, 59, 130, 246), 0.3);
+            border-radius: 20px;
+            padding: 6px 12px;
+            color: var(--accent);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          }
+
+          .preset-btn:hover {
+            background: rgba(var(--primary-rgb, 59, 130, 246), 0.3);
+            transform: translateY(-1px);
+          }
+
+          .preset-opt {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, .3);
+            border-radius: 8px;
+            border: 1px solid rgba(var(--primary-rgb, 59, 130, 246), 0.2);
+          }
+
+          .preset-opt span {
+            flex: 1;
+            min-width: 0;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            outline: none;
+          }
+
+          .use-btn {
+            background: var(--primary);
+            border: none;
+            border-radius: 6px;
+            padding: 4px 10px;
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          }
+
+          .use-btn:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+          }
+
+          body.villain-mode .player-msg {
+            border-left-color: #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+          }
+
+          body.hero-mode .player-msg {
+            border-left-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.15);
+          }
+
+          body.antihero-mode .player-msg {
+            border-left-color: #a78bfa;
+            background: rgba(167, 139, 250, 0.15);
+          }
+
+          /* New Image Styles */
+          .char-icon.has-img {
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: transparent;
+            display: block;
+          }
+
+          .a-img {
+            width: 100%;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+          }
+        </style>
+
+      </div><!-- fin formCol -->
+
+      <!-- ============================================================
+     PANEL LATERAL
+     - Meta de convergencia (validación)
+     - Botón EJECUTAR ANÁLISIS HELIOS
+     - Contenedor del resultado Helios
+     - Exportación TXT/PDF
+     ============================================================ -->
+      <div id="sideCol" style="display:flex;flex-direction:column;gap:20px">
+        <div class="gc" style="padding:20px">
+          <div class="sec-title" style="font-size:11px"><i class="fas fa-check-circle"></i> META DE CONVERGENCIA</div>
+          <div id="validationList" style="display:flex;flex-direction:column;gap:2px"></div>
+          <div class="prog-wrap" style="margin-top:10px">
+            <div class="prog-bar" id="validProgressBar" style="width:0%"></div>
+          </div>
+          <div style="text-align:center;margin-top:6px"><span class="counter-badge" id="validPercent">0%</span></div>
+        </div>
+        <button class="helios-btn" id="heliosBtn" onclick="ejecutarHelios()">
+          <div class="hicon"><i class="fas fa-bolt"></i></div><span>EJECUTAR ANÁLISIS HELIOS</span>
+        </button>
+
+        <div class="gc" style="padding:20px">
+          <div class="sec-title" style="font-size:11px"><i class="fas fa-feather"></i> DESCRIPCIÓN DE HISTORIA DEL
+            PERSONAJE</div>
+          <p style="font-size:11px;opacity:.45;margin-bottom:10px">Genera una historia base a partir de todo lo
+            seleccionado (incluye el Test 20/20). Puedes editarla manualmente.</p>
+          <textarea id="historiaCompletaText" class="inp" rows="7"
+            style="font-size:12px;line-height:1.6;color:#e2e8f0;background:rgba(0,0,0,.35);border-color:rgba(59,130,246,.25);resize:vertical"
+            placeholder="Pulsa GENERAR para crear una historia base; luego edítala aquí..."></textarea>
+          <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+            <button class="act-btn"
+              style="flex:1;background:rgba(59,130,246,.18);border:1px solid rgba(59,130,246,.25);color:#bfdbfe"
+              onclick="generarHistoriaCompleta()"><i class="fas fa-magic"></i> GENERAR (IA / LOCAL)</button>
+            <button class="act-btn"
+              style="flex:1;background:rgba(100,116,139,.22);border:1px solid rgba(100,116,139,.25);color:#94a3b8"
+              onclick="limpiarHistoriaCompleta()"><i class="fas fa-eraser"></i> LIMPIAR</button>
+          </div>
+        </div>
+
+        <div class="gc" style="padding:20px">
+          <div class="sec-title" style="font-size:11px"><i class="fas fa-robot"></i> ANÁLISIS PSICOLÓGICO IA HELIOS
+          </div>
+          <div id="analisisResult" style="font-size:12px;line-height:1.7;opacity:.6;font-style:italic">Activa el botón
+            cuando alcances 100% de convergencia.</div>
+        </div>
+        <div class="gc" style="padding:20px">
+          <div class="sec-title" style="font-size:11px"><i class="fas fa-file-export"></i> EXPORTACIÓN</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <button class="act-btn btn-export" onclick="exportTXT()"><i class="fas fa-file-alt"></i> EXPORTAR
+              TXT</button>
+            <button class="act-btn btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> EXPORTAR PDF</button>
+            <button class="act-btn btn-reset" onclick="resetAll()"><i class="fas fa-sync-alt"></i> REINICIAR
+              HELIOS</button>
+          </div>
+<div id="footer-container"></div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+          </div>
+        </div>
+      </div><!-- fin sideCol -->
+    </div><!-- fin mainGrid -->
