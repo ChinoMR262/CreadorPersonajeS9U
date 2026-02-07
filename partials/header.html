@@ -1,0 +1,48 @@
+﻿  <!-- SPLASH SCREEN -->
+  <!-- Comentario: Pantalla de bienvenida con animaciones y créditos. -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="splash-stars"></div>
+    <div class="splash-content">
+      <div class="splash-line sl-1">SERES DEL</div>
+      <div class="splash-line sl-2">NOVENO</div>
+      <div class="splash-line sl-3">UNIVERSO</div>
+      <div class="splash-sign">Jonathan Gabriel Nieto</div>
+    </div>
+    <!-- Comentario: Texto legal visible en la pantalla de inicio. -->
+    <div class="splash-copy">
+      Copyright © 2026 Seres Del Noveno Universo. Todos los derechos reservados.
+    </div>
+  </div>
+  <!-- ============================================================
+     CAPAS VISUALES (FONDO)
+     - bg-layer: luces/gradientes
+     - cyber-grid: rejilla
+     - particle: partículas animadas
+     ============================================================ -->
+  <!-- Comentario: Capas visuales de fondo. -->
+  <div class="bg-layer"></div>
+  <div class="cyber-grid"></div>
+  <div class="particle p1"></div>
+  <div class="particle p2"></div>
+  <div class="particle p3"></div>
+  <div class="particle p4"></div>
+  <div class="particle p5"></div>
+  <div class="particle p6"></div>
+
+    <!-- Comentario: Encabezado principal con título y estado. -->
+    <header class="text-center mb-8">
+      <h1 class="main-title mb-2" id="headerTitle" style="min-height:1.2em"></h1>
+      <!-- Comentario: Subtítulo con contraste mejorado vía CSS. -->
+      <p id="headerSubtitle"
+        style="font-family:'Share Tech Mono';letter-spacing:2px;margin-bottom:16px;min-height:1.2em">
+      </p>
+      <div style="display:inline-flex;align-items:center;gap:10px;padding:8px 18px" class="gc">
+        <div class="status-dot"></div>
+        <!-- Comentario: Estado con tamaño/color definidos en CSS para mayor legibilidad. -->
+        <span id="headerStatus"
+          style="font-family:'Orbitron';font-weight:700;letter-spacing:2px;min-height:1.2em"></span>
+      </div>
+      <div class="scan-wrap">
+        <div class="scan-bar"></div>
+      </div>
+    </header>

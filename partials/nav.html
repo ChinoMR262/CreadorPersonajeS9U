@@ -1,0 +1,59 @@
+﻿<!-- GEAR FAB -->
+<!-- Comentario: Botones flotantes (configuración y subir). -->
+<button class="gear-btn" onclick="toggleSettings()"><i class="fas fa-cog"></i></button>
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()" aria-label="Volver arriba"
+  title="Volver arriba"><i class="fas fa-arrow-up"></i></button>
+<!-- Comentario: Panel de configuración con opciones de UI. -->
+<div class="settings-panel" id="settingsPanel">
+  <h3><i class="fas fa-sliders-h"></i> &nbsp;CONFIGURACIÓN</h3>
+  <!-- Comentario: Tamaño de fuente del sitio. -->
+  <div class="settings-row"><label>Tamaño de texto</label>
+    <div class="size-btns">
+      <button class="size-btn" onclick="setFontSize(12,'S')" id="sizeS">S</button>
+      <button class="size-btn active" onclick="setFontSize(14,'M')" id="sizeM">M</button>
+      <button class="size-btn" onclick="setFontSize(16,'L')" id="sizeL">L</button>
+      <button class="size-btn" onclick="setFontSize(18,'XL')" id="sizeXL">XL</button>
+    </div>
+  </div>
+  <!-- Comentario: Selector de familia tipográfica. -->
+  <div class="settings-row"><label>Familia de fuente</label>
+    <select class="font-select" id="fontFamilySelect" onchange="applyFont()">
+      <option value="Rajdhani">Rajdhani</option>
+      <option value="Exo 2">Exo 2</option>
+      <option value="Inter">Inter</option>
+      <option value="Share Tech Mono">Share Tech Mono</option>
+      <option value="Orbitron">Orbitron</option>
+    </select>
+  </div>
+  <!-- Comentario: Activar o desactivar efectos de sonido. -->
+  <div class="settings-row"><label>Sonidos</label>
+    <div class="mute-toggle on" id="muteToggle" onclick="toggleMute()"></div>
+  </div>
+  <!-- Comentario: Activar análisis con Gemini si hay clave. -->
+  <div class="settings-row"><label>IA Gemini</label>
+    <div class="mute-toggle on" id="geminiToggle" onclick="toggleGemini()"></div>
+  </div>
+  <!-- Comentario: Campo para pegar la API Key (opcional). -->
+  <div class="settings-row"
+    style="flex-direction:column;align-items:stretch;gap:8px;margin-top:-4px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.05)">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <label style="font-size:11px;opacity:0.7">Clave API (Opcional)</label>
+      <span id="apiKeyStatus" style="font-size:10px"></span>
+    </div>
+    <input type="password" id="geminiKeyInput" placeholder="Pegar API Key de Google Gemini..."
+      style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:6px;font-family:'Share Tech Mono';font-size:11px;border-radius:4px;outline:none;width:100%"
+      oninput="onKeyInput()">
+  </div>
+  <!-- Comentario: Control global de animaciones. -->
+  <div class="settings-row"><label>Animaciones</label>
+    <div class="mute-toggle on" id="animsToggle" onclick="toggleAnims()"></div>
+  </div>
+  <!-- Comentario: Toggle de tema claro/oscuro. -->
+  <div class="settings-row"><label>Modo Claro</label>
+    <div class="mute-toggle" id="themeToggle" onclick="toggleTheme()"></div>
+  </div>
+  <!-- Comentario: Guardado automático de progreso. -->
+  <div class="settings-row"><label>Guardado Automático</label>
+    <div class="mute-toggle" id="autosaveToggle" onclick="toggleAutosave()"></div>
+  </div>
+</div>
